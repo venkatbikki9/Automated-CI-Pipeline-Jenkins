@@ -1,0 +1,75 @@
+pipeline {
+  agent {
+    docker {
+      image 'node:18'
+      args '-u root:root'
+    }
+  }
+
+  options {
+    timestamps()
+    skipStagesAfterUnstable()
+  }
+
+  environment {
+    // Example: if you want Jenkins to use a NodeJS tool instead of docker, remove agent docker and use tool:
+    // NODE_HOME = tool name: 'NodeJS 18', type: 'NodeJS'
+    // PATH = "${env.NODE_HOME}/bin:${env.PATH}"
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Install dependencies') {
+      steps {
+        sh 'node --version'
+        sh 'npm --version'
+        sh 'npm ci'
+      }
+    }
+
+    stage('Static Analysis') {
+      steps {
+        sh 'npm run lint || true'
+      }
+    }
+
+    stage('Unit Tests') {
+      steps {
+        sh 'npm test'
+      }
+      post {
+        always {
+          junit testResults: 'tests/junit.xml', allowEmptyResults: true
+          archiveArtifacts artifacts: 'tests/junit.xml', allowEmptyArchive: true
+        }
+      }
+    }
+
+    stage('Build & Package') {
+      steps {
+        sh 'npm run build'
+      }
+    }
+
+    stage('Archive Artifacts') {
+      steps {
+        archiveArtifacts artifacts: 'build/**', fingerprint: true
+      }
+    }
+  }
+
+  post {
+    success {
+      echo "Build succeeded: ${env.BUILD_URL}"
+    }
+    failure {
+      echo "Build failed: ${env.BUILD_URL}"
+    }
+  }
+}
+

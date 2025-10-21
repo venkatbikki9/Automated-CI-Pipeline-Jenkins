@@ -1,0 +1,23 @@
+{
+  "name": "automated-ci-pipeline-jenkins",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node src/app.js",
+    "build": "mkdir -p build && cp -r src/* build/ && zip -r build/artifact.zip build || true",
+    "test": "jest --ci --reporters=default --reporters=jest-junit",
+    "lint": "eslint src || true"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^9.38.0",
+    "jest": "^30.2.0",
+    "jest-junit": "^16.0.0"
+  }
+}

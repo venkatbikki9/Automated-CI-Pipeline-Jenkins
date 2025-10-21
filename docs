@@ -1,0 +1,36 @@
+
+---
+
+### `package.json`
+```json
+{
+  "name": "sample-ci-app",
+  "version": "1.0.0",
+  "description": "Sample Node.js app for Jenkins CI pipeline",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "build": "mkdir -p build && cp -r src/* build/ && zip -r build/artifact.zip build || true",
+    "test": "jest --ci --reporters=default --reporters=jest-junit",
+    "lint": "eslint src || true"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "reporters": [
+      "default",
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "tests",
+          "outputName": "junit.xml"
+        }
+      ]
+    ]
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "jest-junit": "^13.0.0",
+    "eslint": "^8.0.0"
+  }
+}
