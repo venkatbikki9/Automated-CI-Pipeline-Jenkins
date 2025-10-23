@@ -12,29 +12,6 @@ The pipeline automatically triggers whenever new code is pushed to a GitHub repo
 
 The goal is to ensure that the application is always in a **ready-to-deploy** state, following key DevOps principles of **automation**, **reliability**, and **repeatability**.
 
----
-
-##  Objectives
-- Install and configure Jenkins for CI pipelines.  
-- Automate the build and test process of a web application.  
-- Integrate GitHub with Jenkins using webhooks for automatic build triggers.  
-- Generate build artifacts and archive them in Jenkins.  
-- Understand Jenkins pipeline concepts, credentials management, and job configuration.
-
----
-
-##  Project Components
-
-| Component | Description |
-|------------|-------------|
-| **Source Code** | A simple web application built using Node.js, Python (Flask), or Java (Spring Boot). |
-| **Version Control** | GitHub repository to manage code changes and trigger builds via webhooks. |
-| **Jenkins Server** | Core CI engine that automates the pipeline execution. |
-| **Testing Framework** | Jest (Node.js), Pytest (Python), or JUnit (Java) to validate code quality. |
-| **Build Tool** | npm, Maven, or Gradle depending on chosen language. |
-| **Artifact Storage** | Jenkins archives the packaged build output for deployment. |
-
----
 
 ##  Pipeline Workflow
 
@@ -96,4 +73,5 @@ sudo apt update
 sudo apt install jenkins -y
 sudo systemctl enable jenkins
 sudo systemctl start jenkins
+
 
